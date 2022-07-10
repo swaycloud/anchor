@@ -27,3 +27,21 @@ Não se preocupe, nós pensamos em tudo para você! Abaixo deixa-mos ambas das v
 
  * **[Compactada](anchor.min.js)**: esta é a versão utilizada em sites comerciais, otimizada para o carregamento rápido das páginas. Copie e cole o snippet no cabeçalho da página: ```<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/sway-cloud/anchor/anchor.min.js"></script>```
  * **[Descompactada](anchor.js)**: esta é a versão de desenvolvimento, feita especificamente para você modificar a vontade.
+
+<!-- UTILIDADES -->
+
+* ## *Utilidades oferecidas*
+Boas-vindas! Aqui você terá uma visão geral sobre o que temos a oferecer para você. Se deseja saber todas as utilidades disponíveis, por favor leia a wiki do nosso repositório.
+* **Detectar navegadores:** nós detectamos os navegadores mais utilizados para você.
+  * Detectamos o **Google Chrome**, **Mozilla Firefox**, **Apple Safari**, **Opera**, **Microsoft Edge** e os **Robos de captura (Web Crawlers)**.
+
+* **Detectar motores de layout:** detecmos o motor de layout utilizado pelo navegador.
+  * Os motores detectados são o **Gecko**, **WebKit**, **Presto**, **Trident**, **EdgeHTML** e o famoso **Blink**.
+
+* **Detectar orientação do dispositivo:** verificamos rapidamente a orientação do dispositivo do usuário.
+  * Detectamos se o dispositivo está em modo **retrato (portrait)** ou **paisagem (landscape)**.
+
+* **Detectar o tipo de dispositivo:** detectamos em que tipo de aparelho seu site está sendo acessado.
+  * Os dispositivos suportados são: **dispositivos móveis (mobile)**, **tablets** e **desktops**.
+
+* **Detectar sistemas operacionais:** 
