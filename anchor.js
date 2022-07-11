@@ -1,7 +1,7 @@
 /*!
  * Biblioteca JavaScript Anchor - v1.0
  * 
- * Homepage: https://github.com/sway-cloud/anchor
+ * Homepage: https://github.com/swaycloud/anchor
  * Copyright: 2022 Eduardo Baginski Costa
  * License: MIT
  * 
