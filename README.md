@@ -28,7 +28,7 @@ Se deseja incluir alguma coisa no código oficial, envie-nos sua sugestão para 
 
 * ## *Carregando a biblioteca*
 Utiliza-mos o [jsDelivr](https://www.jsdelivr.com/) para realizar a distribuição pública do Anchor, e é muito simples carrega-lo em seu site, basta copiar e colar o snippet HTML abaixo no cabeçalho da página, e começe a utilizar agora mesmo todas as suas utilidades.
-```
+```html
 <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/sway-cloud/anchor/anchor.min.js"></script>
 ```
 
@@ -38,7 +38,10 @@ Utiliza-mos o [jsDelivr](https://www.jsdelivr.com/) para realizar a distribuiç�
 Como somos a favor do codigo-aberto nós deixamos também uma versão para o desenvolvimento, mas como a biblioteca principal é para a utilização em sites comerciais, ela é a versão que deixa-mos em destaque aos desenvolvedores.   
 Não se preocupe, nós pensamos em tudo para você! Abaixo deixa-mos ambas das versões para você usufruir:
 
- * **[Compactada](anchor.min.js)**: esta é a versão utilizada em sites comerciais, otimizada para o carregamento rápido das páginas. Copie e cole o snippet no cabeçalho da página: ```<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/sway-cloud/anchor/anchor.min.js"></script>```
+ * **[Compactada](anchor.min.js)**: esta é a versão utilizada em sites comerciais, otimizada para o carregamento rápido das páginas. Copie e cole o snippet no cabeçalho da página:
+      ```html
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/sway-cloud/anchor/anchor.min.js"></script>
+      ```
  * **[Descompactada](anchor.js)**: esta é a versão de desenvolvimento, feita especificamente para você modificar a vontade.
 
 <!-- UTILIDADES -->
