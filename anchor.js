@@ -1,937 +1,543 @@
 /*!
- * Biblioteca JavaScript Anchor - v1.0
- * 
- * Homepage: https://github.com/swaycloud/anchor
- * Copyright: 2022 Eduardo Baginski Costa
- * License: MIT
- * 
- * Author: Eduardo Baginski Costa <eduardobcosta1234@gmail.com>
- * Company: Sway Cloud
+ * Anchor JavaScript Library v1.0
+ *
+ * @author Eduardo Baginski Costa
+ * @copyright 2022 Eduardo Baginski Costa
+ * @homeage https://github.com/swaycloud/anchor
+ * @license MIT
+ *
+ * @version 1.0
  */
-
-"use strict";
 
 /*!
- * Hospedeiro das funções do AnchorDateTime.
+ * Função hospedeira das funcionalidades
+ * da biblioteca Anchor.
  */
-class AnchorDateTime
-{
-	/*!
-	 * Construtor da classe AnchorDate.
-	 */
-	constructor() {}
+function Anchor()
+{ "use strict";
 
-	// ~> Informações do dia, mês e ano
+	// ~> Informações da versão atual
 
-		/*!
-		 * Capturar o dia atual.
-		 */
-		date = new Date().getDate();
+		let _this = this;
+		_this.about = {
+			name: "Anchor",
+			version: "1.0",
+			license: "MIT License",
+			homepage: "https://github.com/swaycloud/anchor",
+			authors: [
+				{
+					name: "Eduardo Baginski Costa",
+					email: "eduardobcosta1234@gmail.com",
+					homepage: "https://github.com/eduardobaginskicosta",
+					role: "Developer"
+				}
+			],
+			vendor: "Sway Cloud"
+		};
 
-		/*!
-		 * Capturar o dia da semana para a
-		 * data específica.
-		 */
-		day = new Date().getDay();
-
-		/*!
-		 * Capturar o mês atual.
-		 */
-		month = new Date().getMonth();
-
-		/*!
-		 * Capturar o ano atual completo.
-		 */
-		fullYear = new Date().getFullYear();
-
-	// ~> Informações sobre as horas, minutos, segundos, milissegundos
+	// ~> Utilidades para Strings
 
 		/*!
-		 * Capturar a hora atual.
+		 * Verificar se uma String é nula ou vazia.
 		 */
-		hours = new Date().getHours();
+		_this.isNullOrEmpty = (string) =>
+		{
+			return (string == null || string == undefined || string.length <= 0);
+		}
 
 		/*!
-		 * Capturar os minutos atuais.
+		 * Verificar se uma String é nulo ou é um espaço em branco.
 		 */
-		minutes = new Date().getMinutes();
+		_this.isNullOrWhitespace = (string) =>
+		{
+			return (string == null || string == undefined || string == "" || string == " " || string.length <= 0);
+		}
+
+	// ~> Detectar tipo da variável
 
 		/*!
-		 * Capturar os segundos atuais.
+		 * Capturar o tipo da variável.
 		 */
-		seconds = new Date().getSeconds();
+		_this.getType = (variable) =>
+		{
+			// Mapa dos tipos de variável
+			var typeof_map = {
+				'undefined': 'Undefined',
+				'boolean': 'Boolean',
+				'number': 'Number',
+				'string': 'String',
+				'function': 'Function',
+
+				'Undefined': 'Undefined',
+				'Null': 'Null',
+				'Boolean': 'Boolean',
+				'Number': 'Number',
+				'String': 'String',
+				'Function': 'Function',
+				'Array': 'Array',
+				'StyleSheetList': 'Array'
+			};
+
+			// Retornar o tipo da variável
+			return function(data)
+			{
+				// Variáveis locais
+				var type, type_str;
+
+				// Detectar tipo Nulo e Indefinido
+				if (data === null) return 'null';
+				if (data === undefined) return 'undefined';
+
+				// Atualizar as variáveis
+				type = typeof(data);
+				type_str = typeof_map[type];
+
+				// Verificar se está na lista
+				if (type_str) return type_str.toLowerCase();
+
+				// Verificar os demais tipos
+				type = {}.toString.call(data).slice(8, -1);
+				return typeof_map[type].toLowerCase() || (data instanceof Array ? 'array' : (data.propertyIsEnumerable(0) && data.length != undefined ? 'array' : 'object'));
+			}(variable);
+		}
 
 		/*!
-		 * Capturar os milissegundos atuais.
+		 * Verificar se a variável é
+		 * do tipo nulo (Null).
 		 */
-		milliseconds = new Date().getMilliseconds();
+		_this.isNull = (variable) => {
+			return (_this.getType(variable) == 'null');
+		}
 
 		/*!
-		 * Capturar o valor numérico correspondente
-		 * ao horário de acordo com o horário universal.
+		 * Verificar se a variável é
+		 * do tipo indefinido (Undefined).
 		 */
-		time = new Date().getTime();
+		_this.isUndefined = (variable) => {
+			return (_this.getType(variable) == 'undefined');
+		}
+
+		/*!
+		 * Verificar se a variável é
+		 * do tipo função (Function).
+		 */
+		_this.isFunction = (variable) => {
+			return (_this.getType(variable) == 'function');
+		}
+
+		/*!
+		 * Verificar se a variável é
+		 * do tipo booleano (Boolean).
+		 */
+		_this.isBoolean = (variable) => {
+			return (_this.getType(variable) == 'boolean');
+		}
+
+		/*!
+		 * Verificar se a variável é
+		 * do tipo número (Number).
+		 */
+		_this.isNumber = (variable) => {
+			return (_this.getType(variable) == 'number');
+		}
+
+		/*!
+		 * Verificar se a variável é
+		 * do tipo corda (String).
+		 */
+		_this.isString = (variable) => {
+			return (_this.getType(variable) == 'string');
+		}
+
+		/*!
+		 * Verificar se a variável é
+		 * do tipo função (Function).
+		 */
+		_this.isFunction = (variable) =>
+		{
+			return (_this.getType(variable) == 'function');
+		}
+
+		/*!
+		 * Verificar se a variável é
+		 * do tipo matriz (Array).
+		 */
+		_this.isArray = (variable) => {
+			return (_this.getType(variable) == 'array');
+		}
+
+		/*!
+		 * Verificar se a variável é
+		 * do tipo objeto (Object).
+		 */
+		_this.isObject = (variable) => {
+			return (_this.getType(variable) == 'object');
+		}
+
+	// ~> Selecioanar um elemento
+
+		_this.select = function(query)
+		{
+			// Detectar Query inválida
+			if (_this.isNullOrEmpty(query) || _this.isNullOrWhitespace(query)) query = '*';
+
+			/*!
+			 * Hospedeiro das funcionalidades
+			 * do AnchorElement.
+			 */
+			function AnchorElement(query)
+			{
+				// Capturar o elemento
+				let _element = document.querySelector(query);
+
+				// ~> Capturar ou definir o conteúdo
+
+					/*!
+					 * Capturar o definir o texto
+					 * do elemento selecionado.
+					 */
+					this.text = (newText = null) =>
+					{
+						// Capturar o texto do elemento
+						if (_this.isNullOrEmpty(newText) || _this.isNullOrWhitespace(newText))
+							return _element.innerText;
+
+						// Definir o texto do elemento
+						else _element.innerText = newText;
+					}
+
+					/*!
+					 * Capturar ou definir o código HTML
+					 * do elemento selecionado.
+					 */
+					this.html = (newHTML = null) =>
+					{
+						// Capturar o código HTML
+						if (_this.isNullOrEmpty(newHTML) || _this.isNullOrWhitespace(newHTML))
+							return _element.innerHTML;
+
+						// Definir o código HTML
+						else _element.innerHTML = newHTML;
+					}
+
+					/*!
+					 * Capturar ou definir o valor
+					 * do elemento selecionado.
+					 */
+					this.value = (newValue = null) =>
+					{
+						// Capturar o valor do elemento
+						if (_this.isNullOrEmpty(newValue) || _this.isNullOrWhitespace(newValue))
+							return _element.value;
+
+						// Definir o valor do elemento
+						else _element.value = newValue;
+					}
+
+				// ~> Utilidades
+
+					/*!
+					 * Capturar ou definir uma regra CSS.
+					 */
+					this.css = (ruleName, newRuleValue = null) =>
+					{
+						// Capturar o valor da regra CSS
+						if ((_this.isNullOrEmpty(newRuleValue) || _this.isNullOrWhitespace(newRuleValue)) && newRuleValue != "")
+							return _element.style[ruleName];
+
+						// Definir o valor da regra CSS
+						else _element.style[ruleName] = newRuleValue;
+					}
+
+					/*!
+					 * Capturar ou definir um atributo.
+					 */
+					this.attr = (attrName, newAttrValue = null) =>
+					{
+						// Capturar o valor do atributo
+						if ((_this.isNullOrEmpty(newAttrValue) || _this.isNullOrWhitespace(newAttrValue)) && newAttrValue != "")
+							return _element[attrName];
+
+						// Definir o valor do atributo
+						else _element[attrName] = newAttrValue;
+					}
+
+					/*!
+					 * Clonar o elemento selecionado.
+					 */
+					this.clone = () =>
+					{
+						// Retornar um clone do elemento
+						return _element.cloneNode(true);
+					}
+
+				// ~> Manipular regras de evento
+
+					/*!
+					 * Registrar uma nova regra de evento.
+					 */
+					this.on = (eventName, eventFunction) =>
+					{
+						// Verificar se não é uma função
+						if (!_this.isFunction(eventFunction))
+							throw 'The "eventFunction" is not a Function.';
+
+						// Registrar nova regra de evento
+						_element.addEventListener(eventName, eventFunction);
+					}
+
+					/*!
+					 * Performar um clique no elemento
+					 * selecionado, ou definir uma nova
+					 * regra de evento ao ser clicado.
+					 */
+					this.click = (eventFunction = null) =>
+					{
+						// Performar um clique
+						if ((_this.isNullOrEmpty(eventFunction) || _this.isNullOrWhitespace(eventFunction)) && !_this.isFunction(eventFunction))
+							_element.click();
+
+						// Registrar uma regra de evento
+						else this.on('click', eventFunction);
+					}
+
+				// ~> Capturar largura e altura
+
+					/*!
+					 * Capturar a largura do elemento selecionado.
+					 */
+					this.width = (function() {
+						return _element.offsetWidth;
+					})();
+
+					/*!
+					 * Capturar a altura do elemento selecionado.
+					 */
+					this.height = (function() {
+						return _element.offsetHeight;
+					})();
+
+				// ~> Capturar posições
+
+					/*!
+					 * Capturar a posição superior
+					 * do elemento selecionado.
+					 */
+					this.top = (function() {
+						return _element.getBoundingClientRect().top;
+					})();
+
+					/*!
+					 * Capturar a posição inferior
+					 * do elemento selecionado.
+					 */
+					this.bottom = (function() {
+						return _element.getBoundingClientRect().bottom;
+					})();
+
+					/*!
+					 * Capturar a posição esquerda
+					 * do elemento selecionado.
+					 */
+					this.left = (function() {
+						return _element.getBoundingClientRect().left;
+					})();
+
+					/*!
+					 * Captuar a posição direita
+					 * do elemento selecionado.
+					 */
+					this.right = (function() {
+						return _element.getBoundingClientRect().right;
+					})();
+			}
+
+			// Retornar o elemento selecionado
+			return new AnchorElement(query);
+		}
+
+	// ~> Informações sobre a data e o tempo
+
+		/*!
+		 * Capturar informações sobre a data
+		 * e tempo atual.
+		 */
+		_this.date = (function()
+		{
+			/*!
+			 * Hospedeiro das funcionalidades
+			 * do AnchorDateTime.
+			 */
+			function AnchorDateTime()
+			{
+				// Variáveis locais
+				var _date = function() { return new Date(); }
+
+				// ~> Dia, mês e ano
+
+					/*!
+					 * Capturar a dia atual.
+					 */
+					this.date = _date().getDate();
+
+					/*!
+					 * Capturar o dia da semana para a
+					 * data específica.
+					 */
+					this.day = _date().getDay();
+
+					/*!
+					 * Capturar o mês atual
+					 */
+					this.month = _date().getMonth();
+
+					/*!
+					 * Capturar o ano atual completo.
+					 */
+					this.fullYear = _date().getFullYear();
+
+				// ~> Horas, minutos, segundos e milissegundos
+
+					/*!
+					 * Capturar a hora atual.
+					 */
+					this.hours = _date().getHours();
+
+					/*!
+					 * Capturar os minutos atuais.
+					 */
+					this.minutes = _date().getMinutes();
+
+					/*!
+					 * Capturar os segundos atuais.
+					 */
+					this.seconds = _date().getSeconds();
+
+					/*!
+					 * Capturar os milissegundos atuais.
+					 */
+					this.milliseconds = _date().getMilliseconds();
+
+					/*!
+					 * Capturar o valor numérico correspondente
+					 * ao horário de acordo com o Horário Universal.
+					 */
+					this.time = _date().getTime();
+
+				// ~> Utilidades da classe
+
+					/*!
+					 * Capturar a diferença, em minutos, do
+					 * deslocamento do fuso horário entre o
+					 * UTC e a localidade atual.
+					 */
+					this.timezoneOffset = _date().getTimezoneOffset();
+
+					/*!
+					 * Capturar o número de milissegundos
+					 * decorridos desde de 1 de janeiro de 1970.
+					 */
+					this.now = Date.now();
+
+				// ~> Dia, mês e ano: Horário Universal
+
+					/*!
+					 * Capturar o dia atual de acordo
+					 * com o Horário Universal.
+					 */
+					this.utcDate = _date().getUTCDate();
+
+					/*!
+					 * Capturar o dia da semana para a
+					 * data específica de acordo com o
+					 * Horário Universal.
+					 */
+					this.utcDay = _date().getUTCDay();
+
+					/*!
+					 * Capturar o mês atual de acordo
+					 * com o Horário Universal.
+					 */
+					this.utcMonth = _date().getUTCMonth();
+
+					/*!
+					 * Capturar o ano atual completo
+					 * de acordo com o Horário Universal.
+					 */
+					this.utcFullYear = _date().getUTCFullYear();
+
+				// ~> Horas, minutos, segundos e milissegundos: Horário Universal
+
+					/*!
+					 * Capturar a hora atual de acordo
+					 * com o Horário Universal.
+					 */
+					this.utcHours = _date().getUTCHours();
+
+					/*!
+					 * Capturar os minutos atuais de acordo
+					 * com o Horário Universal.
+					 */
+					this.utcMinutes = _date().getUTCMinutes();
+
+					/*!
+					 * Capturar os segundos atuais de acordo
+					 * com o Horário Universal.
+					 */
+					this.utcSeconds = _date().getUTCSeconds();
+
+					/*!
+					 * Capturar os milissegundos de acordo
+					 * com o Horário Universal.
+					 */
+					this.utcMilliseconds = _date().getUTCMilliseconds();
+			}
+
+			// Retornar as informações
+			return new AnchorDateTime;
+		})();
 
 	// ~> Utilidades da classe
 
 		/*!
-		 * Capturar a diferença, em minutos, do
-		 * deslocamento do fuso horário entre o
-		 * UTC e a localidade atual.
+		 * Capturar ou definir os Cookies do documento.
 		 */
-		timezoneOffset = new Date().getTimezoneOffset();
+		_this.cookie = document.cookie;
 
 		/*!
-		 * Capturar o número de milissegundos
-		 * decorridos desde de 1 de janeiro de 1970.
+		 * Selecionar um elemento utilizando uma Query.
 		 */
-		now = Date.now();
-
-	// ~> Informações do dia, mês e ano
-	//  | [Horário Universal]
-
-		/*!
-		 * Capturar o dia atual de acordo
-		 * com o horário universal.
-		 */
-		utcDate = new Date().getUTCDate();
-
-		/*!
-		 * Capturar o dia da semana para a
-		 * data específica de acordo com o
-		 * horário universal.
-		 */
-		utcDay = new Date().getUTCDay();
-
-		/*!
-		 * Capturar o mês atual de acordo
-		 * com o horário universal.
-		 */
-		utcMonth = new Date().getUTCMonth();
-
-		/*!
-		 * Capturar o ano atual completo
-		 * de acordo com o horário universal.
-		 */
-		utcFullYear = new Date().getUTCFullYear();
-
-	// ~> Informações sobre as horas, minutos, segundos, milisseundos
-	//  | [Horário Universal]
-
-		/*!
-		 * Capturar a hora atual de
-		 * acordo com o horário universal.
-		 */
-		utcHours = new Date().getUTCHours();
-
-		/*!
-		 * Capturar os minutos atuais de
-		 * acordo com o horário universal.
-		 */
-		utcMinutes = new Date().getUTCMinutes();
-
-		/*!
-		 * Capturar os segundos atuais de
-		 * acorde com o horário universal.
-		 */
-		utcSeconds = new Date().getUTCSeconds();
-
-		/*!
-		 * Capturar os milissegundos de
-		 * acordo com o horário universal.
-		 */
-		utcMilliseconds = new Date().getUTCMilliseconds();
-}
-
-	// ===== - ===== - ===== - =====
-
-/*!
- * Classe hospedeira das funções do AnchorStorageContainer.
- */
-class AnchorStorageContainer
-{
-	/*!
-	 * Construtor da classe AnchorStorageContainer.
-	 */
-	constructor(containerName, containerDescription = null)
-	{
-		// Atualizar as informações do contentor
-
-			this.name = (containerName == null || containerName == undefined || containerName.length <= 0) ? new Anchor().randomID(10) : containerName;
-			this.description = containerDescription;
-
-		// Atualizar os conteúdos
-
-			this.contents = [];
-	}
-
-	// ~> Adicionar um conteúdo
-
-		/*!
-		 * Adicionar um novo conteúdo.
-		 *
-		 * Se um conteúdo já existir, seu valor
-		 * sera substituído pelo novo valor;
-		 * caso contrário, será criado um novo.
-		 */
-		add = function(name, value)
+		_this.querySelector = _this.selector = (query) =>
 		{
-			// Capturar cada um dos conteúdos
+			// Detectar Query inválida
+			if (_this.isNullOrEmpty(query) || _this.isNullOrWhitespace(query)) query = '*';
 
-			for (var i = 0; i < this.contents.length; i++)
-			{
-				// Verificar se já existe
-
-				if (this.contents[i].name == name)
-				{
-					// Atualizar o conteúdo
-
-					this.contents[i].value = value;
-					return true;
-				}
-			}
-
-			// Adicionar um novo conteúdo
-
-			this.contents.push({ name: name, value: value });
-			return true;
+			// Retornar o elemento selecionado
+			return document.querySelector(query);
 		}
 
 		/*!
-		 * Adicionar um novo conteúdo
-		 * em um índice específico.
-		 *
-		 * Se um conteúdo já existir, o
-		 * processo será encerrado.
+		 * Gerar um novo ID único baseado nos
+		 * milissegundos atuais.
 		 */
-		addAt = function(index, name, value)
+		_this.uniqueID = (length) =>
 		{
-			// Capturar cada um dos conteúdos
-
-			for (var i = 0; i < this.contents.length; i++)
-			{
-				// Verificar se já existe
-
-				if (this.contents[i].name == name) return false;
-			}
-
-			// Adicionar um novo conteúdo
-
-			this.contents.splice(index, 0, { name: name, value: value });
-			return true;
-		}
-
-	// ~> Remover um conteúdo
-
-		/*!
-		 * Remover um conteúdo do contentor.
-		 */
-		remove = function(name)
-		{
-			// Capturar cada um dos conteúdos
-
-			for (var i = 0; i < this.contents.length; i++)
-			{
-				// Verificar se existe
-
-				if (this.contents[i].name == name)
-				{
-					// Remover conteúdo
-
-					this.contents.splice(i, 1);
-					return true;
-				}
-			}
-
-			// Conteúdo não encontrado
-			return false;
-		}
-
-		/*!
-		 * Remover um conteúdo do contentor
-		 * através de seu índice.
-		 */
-		removeAt = function(index)
-		{
-			// Verificar índice inválido
-			if (index < 0 || index > this.contents.length) return false;
-
-			// Remover conteúdo do contentor
-
-			this.contents.splice(index, 1);
-			return true;
-		}
-
-		/*!
-		 * Remover todos os conteúdos.
-		 */
-		removeAll = function() { this.contents = []; }
-
-	// ~> Limpar o valor de um conteúdo
-
-		/*!
-		 * Limpar o valor de um conteúdo.
-		 */
-		clear = function(name)
-		{
-			// Capturar cada um dos conteúdos
-
-			for (var i = 0; i < this.contents.length; i++)
-			{
-				// Verificar se existe
-
-				if (this.contents[i].name == name)
-				{
-					// Limpar o valor do conteúdo
-
-					this.contents[i].value = null;
-					return true;
-				}
-			}
-
-			// Conteúdo inexistente
-			return false;
-		}
-
-		/*!
-		 * Limpar o valor de um conteúdo
-		 * em um índice específico.
-		 */
-		clearAt = function(index)
-		{
-			// Verificar índice inválido
-			if (index < 0 || index > this.contents.length) return false;
-
-			// Limpar valor do conteúdo
-
-			this.contents[index].value = null;
-			return true;
-		}
-
-		/*!
-		 * Limpar os valores de todos os conteúdos.
-		 */
-		clearAll = function()
-		{
-			// Capturar cada um dos conteúdos
-
-			for (var i = 0; i < this.contents.length; i++)
-			{
-				// Limpar o conteúdo
-				this.contents[i].value = null;
-			} return true;
-		}
-
-	// ~> Capturar o valor do conteúdo
-
-		/*!
-		 * Capturar o valor do conteúdo.
-		 *
-		 * Se o conteúdo não existir, será
-		 * retornado um valor nulo.
-		 */
-		get = function(name)
-		{
-			// Capturar cada um dos conteúdos
-
-			for (var i = 0; i < this.contents.length; i++)
-			{
-				// Verificar se existe
-
-				if (this.contents[i].name == name)
-				{
-					// Retornar o valor do conteúdo
-					return this.contents[i].value;
-				}
-			}
-
-			// Retornar valor nulo
-			return null;
-		}
-
-		/*!
-		 * Capturar o valor do conteúdo
-		 * em um índice específico.
-		 */
-		getAt = function(index)
-		{
-			// Verificar índice inválido
-			if (index < 0 || index > this.contents.length) return null;
-
-			// Retornar o valor do conteúdo
-			return this.contents[index].value;
-		}
-
-	// ~> Definir o valor do conteúdo
-
-		/*!
-		 * Definir o valor de um conteúdo.
-		 */
-		set = function(name, value)
-		{
-			// Capturar cada um dos conteúdos
-
-			for (var i = 0; i < this.contents.length; i++)
-			{
-				// Verificar se existe
-
-				if (this.contents[i].name == name)
-				{
-					// Definir o novo valor do conteúdo
-					this.contents[i].value = value;
-					return true;
-				}
-			}
-
-			// Conteúdo inexistente
-			return false;
-		}
-
-		/*!
-		 * Definir o valor de um conteúdo
-		 * em um índice específico.
-		 */
-		setAt = function(index, value)
-		{
-			// Verficar índice inválido
-			if (index < 0 || index > this.contents.length) return false;
-
-			// Definir o novo valor do conteúdo
-			this.contents[index].value = value;
-			return true;
-		}
-}
-
-	// ===== - ===== - ===== - =====
-
-/*!
- * Classe hospedeira das funções do AnchorStorage.
- */
-class AnchorStorage
-{
-	/*!
-	 * Construtor da classe AnchorStorage.
-	 */
-	constructor()
-	{
-		// Definir o contetor das sessões
-
-			this.containers = [];
-	}
-
-	// ~> Adicionar um contentor
-
-		/*!
-		 * Adicionar um contentor.
-		 */
-		add = function(name = null, description = '')
-		{
-			// Capturar cada um dos contentores
-
-			for (var i = 0; i < this.containers.length; i++)
-			{
-				// Verificar se já existe
-
-				if (this.containers[i].name == name) return false;
-			}
-
-			// Adicionar um novo contentor
-
-			this.containers.push(new AnchorStorageContainer(name, description));
-			return true;
-		}
-
-		/*!
-		 * Adicionar um contentor
-		 * em um índice específico.
-		 */
-		addAt = function(index, name = null, description = '')
-		{
-			// Verificar índice inválido
-			if (index < 0 || index > this.containers.length) return false;
-
-			// Capturar cada um dos contentores
-
-			for (var i = 0; i < this.containers.length; i++)
-			{
-				// Verificar se existe
-				if (this.containers[i].name == name) return false;
-			}
-
-			// Adicionar um novo contentor
-
-			this.containers.splice(index, 0, new AnchorStorageContainer(name, description));
-			return true;
-		}
-
-	// ~> Remover um contentor
-
-		/*!
-		 * Remover um contentor.
-		 */
-		remove = function(name)
-		{
-			// Capturar cada um dos contentores
-
-			for (var i = 0; i < this.containers.length; i++)
-			{
-				// Verificar se existe
-
-				if (this.containers[i].name == name)
-				{
-					// Remover o contentor
-
-					this.containers.splice(i, 1);
-					return true;
-				}
-			}
-
-			// Contentor inexistente
-			return false;
-		}
-
-		/*!
-		 * Remover um contentor
-		 * em um índice específico.
-		 */
-		removeAt = function(index)
-		{
-			// Verificar índice inválido
-			if (index < 0 || index > this.containers.length) return false;
-
-			// Remover o contentor
-
-			this.containers.splice(index, 1);
-			return true;
-		}
-
-	// ~> Capturar um contentor
-
-		/*!
-		 * Capturar um contentor.
-		 */
-		get = function(name)
-		{
-			// Capturar cada um dos contentores
-
-			for (var i = 0; i < this.containers.length; i++)
-			{
-				// Verificar se existe
-
-				if (this.containers[i].name == name)
-				{
-					// Retornar o contentor
-					return this.containers[i];
-				}
-			}
-
-			// Retornar valor nulo
-			return null;
-		}
-
-		/*!
-		 * Capturar um contentor
-		 * em um índice específico.
-		 */
-		getAt = function(index)
-		{
-			// Verificar índice inválido
-			if (index < 0 || index > this.containers.length) return false;
-
-			// Retornar o contentor
-			return this.containers[index];
-		}
-}
-
-	// ===== - ===== - ===== - =====
-
-/*!
- * Classe hospedeira das funções do AnchorElement.
- */
-
-class AnchorElement
-{
-	/*!
-	 * Construtor da classe AnchorElement.
-	 */
-	constructor(query = 'html')
-	{
-		// Selecionar o elemento
-		this.selected = document.querySelector(query);
-	}
-
-	// ~> Capturar ou definir o conteúdo
-
-		/*!
-		 * Capturar ou definir o texto do elemento.
-		 */
-		text = function(newText = null)
-		{
-			// Capturar o texto do elemento
-			if ((newText == null || newText == undefined || newText.length <= 0) && newText != "")
-				return this.selected.innerText;
-
-			// Definir o texto do elemento
-			else this.selected.innerText = newText;
-		}
-
-		/*!
-		 * Capturar ou definir o código HTML.
-		 */
-		html = function(newHTML = null)
-		{
-			// Capturar o código HTML
-			if ((newHTML == null || newHTML == undefined || newHTML.length <= 0) && newHTML != "")
-				return this.selected.innerHTML;
-
-			// Definir o código HTML
-			else this.selected.innerHTML = newHTML;
-		}
-
-		/*!
-		 * Capturar ou definir o valor do elemento.
-		 */
-		value = function(newValue = null)
-		{
-			// Capturar o valor do elemento
-			if ((newValue == null || newValue == undefined || newValue.length <= 0) && newValue != "")
-				return this.selected.value;
-
-			// Definir o valor do elemento
-			else this.selected.value = newValue;
-		}
-
-	// ~> Utilidades do AnchorElement
-
-		/*!
-		 * Capturar ou definir uma regra CSS.
-		 */
-		css = function(ruleName, newRuleValue = null)
-		{
-			// Capturar o valor da regra CSS
-			if ((newRuleValue == null || newRuleValue == undefined || newRuleValue.length <= 0) && newRuleValue != "")
-				return this.selected.style[ruleName];
-
-			// Definir o valor da regra CSS
-			else this.selected.style[ruleName] = newRuleValue;
-		}
-
-		/*!
-		 * Capturar ou definir um atributo.
-		 */
-		attr = function(attrName, newAttrValue = null)
-		{
-			// Capturar o valor do atributo
-			if ((newAttrValue == null || newAttrValue == undefined || newAttrValue.length <= 0) && newAttrValue != "")
-				return this.selected[attrName];
-
-			// Definr o valor do atributo
-			else this.selected[attrName] = newAttrValue;
-		}
-
-		/*!
-		 * Clonar o elemento selecionado.
-		 */
-		clone = function()
-		{
-			// Retornar um clone do elemento
-			return this.selected.cloneNode(true);
-		}
-
-	// ~> Manipular regras de evento
-
-		/*!
-		 * Registrar uma nova regra de evento.
-		 */
-		on = function(eventName, eventFunction)
-		{
-			// Adicionar uma nova regra de evento
-			this.selected.addEventListener(eventName, eventFunction);
-		}
-
-		/*!
-		 * Performar um clique no elemento, ou
-		 * definir uma nova função ao ser clicado.
-		 */
-		click = function(eventFunction = null)
-		{
-			// Performar um clique
-			if ((eventFunction == null || eventFunction == undefined || eventFunction.length <= 0) && typeof eventFunction !== "function")
-				this.selected.click();
-
-			// Adicionar uma nova regra de evento
-			else this.on('click', eventFunction);
-		}
-
-	// ~> Largura e altura do elemento
-
-		/*!
-		 * Capturar a largura do elemento.
-		 */
-		width = function() { return this.selected.offsetWidth; }
-
-		/*!
-		 * Capturar a altura do elemento.
-		 */
-		height = function() { return this.selected.offsetHeight; }
-
-	// ~> Posições do elemento
-
-		/*!
-		 * Capturar a posição superior.
-		 */
-		top = function() { return this.selected.getBoundingClientRect().top; }
-
-		/*!
-		 * Capturar a posição inferior.
-		 */
-		bottom = function() { return this.selected.getBoundingClientRect().bottom; }
-
-		/*!
-		 * Capturar a posição esquerda.
-		 */
-		left = function() { return this.selected.getBoundingClientRect().left; }
-
-		/*!
-		 * Capturar a posição direita.
-		 */
-		right = function() { return this.selected.getBoundingClientRect().right; }
-}
-
-	// ===== - ===== - ===== - =====
-
-/*!
- * Classe hospedeira das funções do AnchorMarkdownParser.
- * >> Adaptação do código de Koen Vendrik (@kvendrik).
- *
- * CodePen: https://codepen.io/kvendrik/pen/bGKeEE
- */
-class AnchorMarkdownParser
-{
-	/*!
-	 * Construtor da classe AnchorMarkdownParser.
-	 */
-	constructor(markdown)
-	{
-		// Lista de regras do Markdown
-		var rules = [
-
-			// UL
-			{
-				regex: /^\s*\n\*/gm,
-				value: '<ul>\n*'
-			},
-			{
-				regex: /^(\*.+)\s*\n([^\*])/gm,
-				value: '$1\n</ul>\n\n$2'
-			},
-			{
-				regex: /^\*(.+)/gm,
-				value: '<li>$1</li>'
-			},
-
-			// OL
-			{
-				regex: /^\s*\n\d\./gm,
-				value: '<ol>\n1.'
-			},
-			{
-				regex: /^(\d\..+)\s*\n([^\d\.])/gm,
-				value: '$1\n</ol>\n\n$2'
-			},
-			{
-				regex: /^\d\.(.+)/gm,
-				value: '<li>$1</li>'
-			},
-
-			// BLOCKQUOTE
-			{
-				regex: /^\>(.+)/gm,
-				value: '<blockquote>$1</blockquote>'
-			},
-
-			// H
-			{
-				regex: /[\#]{6}(.+)/g,
-				value: '<h6>$1</h6>'
-			},
-			{
-				regex: /[\#]{5}(.+)/g,
-				value: '<h5>$1</h5>'
-			},
-			{
-				regex: /[\#]{4}(.+)/g,
-				value: '<h4>$1</h4>'
-			},
-			{
-				regex: /[\#]{3}(.+)/g,
-				value: '<h3>$1</h3>'
-			},
-			{
-				regex: /[\#]{2}(.+)/g,
-				value: '<h2>$1</h2>'
-			},
-			{
-				regex: /[\#]{1}(.+)/g,
-				value: '<h1>$1</h1>'
-			},
-
-			// ALT H
-			{
-				regex: /^(.+)\n\=+/gm,
-				value: '<h1>$1</h1>'
-			},
-			{
-				regex: /^(.+)\n\-+/gm,
-				value: '<h2>$1</h2>'
-			},
-
-			// IMAGES
-			{
-				regex: /\!\[([^\]]+)\]\(([^\)]+)\)/g,
-				value: '<img src="$2" alt="$1" title="$1" />'
-			},
-
-			// LINKS
-			{
-				regex: /[\[]{1}([^\]]+)[\]]{1}[\(]{1}([^\)\"]+)(\"(.+)\")?[\)]{1}/g,
-				value: '<a href="$2" title="$4">$1</a>'
-			},
-
-			// FONT STYLES
-			{
-				regex: /[\*\_]{2}([^\*\_]+)[\*\_]{2}/g,
-				value: '<b>$1</b>'
-			},
-			{
-				regex: /[\*\_]{1}([^\*\_]+)[\*\_]{1}/g,
-				value: '<i>$1</i>'
-			},
-			{
-				regex: /[\~]{2}([^\~]+)[\~]{2}/g,
-				value: '<del>$1</del>'
-			},
-
-			// PRE
-			{
-				regex: /^\s*\n\`\`\`(([^\s]+))?/gm,
-				value: '<pre class="$2">'
-			},
-			{
-				regex: /^\`\`\`\s*\n/gm,
-				value: '</pre>\n\n'
-			},
-
-			// CODE
-			{
-				regex: /[\`]{1}([^\`]+)[\`]{1}/g,
-				value: '<code>$1</code>'
-			},
-
-			// P
-			{
-				regex: /^\s*(\n)?(.+)/gm,
-				value: function(m) {
-					return /\<(\/)?(h\d|ul|ol|li|blockquote|pre|img)/.test(m)
-					? m : '<p>'+m+'</p>';
-				}
-			},
-
-			// STRIP P FROM PRE
-			{
-				regex: /(\<pre.+\>)\s*\n\<p\>(.+)\<\/p\>/gm,
-				value: '$1$2'
-			}
-		];
-
-		// Capturar cada uma das regras
-		for(var i = 0; i < rules.length; i++)
-		{
-			// Substituir os valores
-			markdown = markdown.replace(rules[i].regex, rules[i].value);
-		}
-
-		// Retornar o código HTML
-		this.markdown = markdown;
-	}
-
-	/*!
-	 * Capturar o código HTML.
-	 */
-	htmlCode() { return this.markdown; }
-}
-
-	// ===== - ===== - ===== - =====
-
-/*!
- * Classe hospedeira das funções do Anchor.
- */
-class Anchor
-{
-	/*!
-	 * Construtor da classe Anchor.
-	 */
-	constructor()
-	{
-		// Informações da biblioteca
-
-			this.about = {
-				name: "Anchor",
-				authors: [
-					{
-						name: "Eduardo Baginski Costa",
-						email: "eduardobcosta1234@gmail.com",
-						homepage: "https://github.com/eduardobaginskicosta",
-						role: "Developer"
-					}
-				],
-				version: 1.0,
-				homepage: "https://github.com/sway-cloud/anchor",
-				license: "MIT License",
-				copyright: "2022 Eduardo Baginski Costa",
-				company: "Sway Cloud"
-			};
-	}
-
-	// ~> Utilidades do Anchor
-
-		/*!
-		 * Capturar informações sobre a data e hora atual.
-		 */
-		date = new AnchorDateTime();
-
-		/*!
-		 * Capturar ou definir os cookies do documento.
-		 */
-		cookie = document.cookie;
-
-		/*!
-		 * Selecionar um elemento HTML.
-		 */
-		select = function(query)
-		{
-			// Retornar o elemento
-			if (query == null || query == undefined || query.length <= 0)
-				return new AnchorElement('html');
-			else return new AnchorElement(query);
-		}
-
-		/*!
-		 * Gerar um novo ID randômico.
-		 */
-		randomID = function(length) {
+			// Verificar comprimento inválido
+			if (length < 10 || _this.isNullOrEmpty(length) || _this.isNullOrWhitespace(length))
+				length = 10;
 
 			// Variáveis locais
 			var result = '',
-				characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwzyz0123456789',
-				charactersLength = characters.length;
+			characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
+			charactersLength = characters.length;
 
-			// Capturar o comprimento do ID
-
+			// Capturar de acordo com o comprimento
 			for (var i = 0; i < length; i++)
 			{
 				// Adicionar um novo caractere
-				result += characters.charAt(Math.floor(Math.random() * charactersLength));
+				result += characters.charAt(
+					Math.floor(Math.random(_this.date.now) * charactersLength)
+				);
 			}
 
 			// Retornar o novo ID
@@ -939,550 +545,540 @@ class Anchor
 		}
 
 		/*!
-		 * Armazenamento temporário.
+		 * Detectar se o JavaScript está sendo
+		 * executada em um Pop-Up.
 		 */
-		storage = new AnchorStorage();
-
-		/*!
-		 * Detectar se está sendo executado
-		 * em um Pop-Up.
-		 */
-		isPopup = (function() {
-
+		_this.isPopup = _this.popup = (function()
+		{
 			// Verificar se é um Pop-Up
 			if (window.opener && window.opener !== window) return true;
 			else return false;
 		})();
 
 		/*!
-		 * Detectar se o AdBlock está habilitado.
+		 * Detectar se a AdBlock está habilitado.
 		 */
-		isAdBlockEnabled = async function() {
-
+		_this.isAdBlockEnabled = _this.adBlockEnabled = async () =>
+		{
 			// Variáveis locais
-			var Blocked;
+			var _blocked;
 
-			// Tentar estabelecer conexão com o AdSense
-
-			try {
-
-				// Capturar resultado
+			// Tentar se conectar com o AdSense
+			try
+			{
+				// Capturar o resultado
 				return fetch(
 					new Request(
-						"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js",
-						{ method: "HEAD", mode: "no-cors" }
+						'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js',
+						{ method: 'HEAD', mode: 'no-cors' }
+					).then(
+						function(response) {
+
+							// AdBlock desabilitado
+							_blocked = false; return _blocked;
+						}
+					).catch(
+						function(e) {
+
+							// AdBlock habilitado
+							_blocked = true; return _blocked;
+						}
 					)
-				).then(
-					function(response) {
-
-						// AdBlock desabilitado
-						Blocked = false;
-						return Blocked;
-					}
-				).catch(
-					function(e) {
-
-						// AdBlock habilitado
-						Blocked = true;
-						return Blocked;
-					}
 				);
 			}
 
-			// Erro ao estabelecer a conxeão com o AdSense
-
-			catch(error) {
-
+			// Erro ao conectar-se com o AdSense
+			catch(error)
+			{
 				// AdBlock habilitado
-				Blocked = true;
-				return Blocked;
+				_blocked = true; return _blocked;
 			}
 
 			// Retornar o resultado da captura
-			return (Blocked !== undefined) ? Blocked : await Request();
+			return (_blocked !== undefined) ? _blocked : await Request();
 		}
 
 		/*!
-		 * Verificar se o "Modo Noturno" está habilitado.
+		 * Detectar se o "Modo Noturno" esta habilitado.
 		 */
-		isDarkMode = (function() {
-
-			// Verificar se está habilitado
-			return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+		_this.isDarkMode = _this.darkMode = (function()
+		{
+			// Verificar se esta habilitado
+			return(
+				window.matchMedia &&
+				window.matchMedia('(prefers-color-scheme: dark)').matches
+			);
 		})();
 
 		/*!
 		 * Detectar se o Java está habilitado.
 		 */
-		isJavaEnabled = (function() {
-
+		_this.isJavaEnabled = _this.javaEnabled = (function()
+		{
 			// Verificar se está habilitado
 			return navigator.javaEnabled();
 		})();
-		javaEnabled = this.isJavaEnabled;
 
 		/*!
 		 * Detectar se o Cookie está habilitado.
 		 */
-		cookieEnabled = navigator.cookieEnabled;
+		_this.isCookieEnabled = _this.cookieEnabled = navigator.cookieEnabled;
 
 		/*!
-		 * Converter Markdown para HTML.
+		 * Capturar a plataforma atual.
 		 */
-		markdownParser = function(markdown)
+		_this.platform = navigator.platform;
+
+		/*!
+		 * Criar um novo elemento HTML.
+		 */
+		_this.create = (localName, options = null) =>
 		{
-			// Retornar o código HTML
-			return new AnchorMarkdownParser(markdown).htmlCode();
+			// Retornar novo elemento
+			return document.createElement(localName, options = null);
 		}
 
 	// ~> Informações do navegador
 
 		/*!
-		 * Capturar a agente de usuário (UserAgent).
+		 * Capturar o agente de usuário (UserAgent).
 		 */
-		userAgent = navigator.userAgent;
+		_this.userAgent = navigator.userAgent;
 
 		/*!
-		 * Detectar o fornecedor.
+		 * Capturar o fornecedor.
 		 */
-		vendor = navigator.vendor;
+		_this.browserVendor = navigator.vendor;
 
 		/*!
 		 * Capturar o nome do navegador.
 		 */
-		browserName = (function(agent) {
+		_this.browserName = (function(agent)
+		{
+			// Lista de navegadores
+			var _browsers = [
+				[ "edge", "Microsoft Edge" ],
+				[ "edg/", "Microsoft Chromium" ],
+				[ "opr", "Opera" ],
+				[ "chrome", "Google Chrome" ],
+				[ "trident", "Internet Explorer" ],
+				[ "chromium", "Google Chromium" ],
+				[ "duckduckgo", "DuckDuckGo Browser" ],
+				[ "brave", "Brave Browser" ],
+				[ "vivaldi", "Vivaldi Browser" ]
+			];
 
-			// Verificar cada um dos casos
-			switch(true) {
-
-				// Microsoft Edge
-				case agent.indexOf("edge") > -1: return "Microsoft Edge";
-
-				// Microsoft Chromium
-				case agent.indexOf("edg/") > -1: return "Microsoft Chromium";
-
-				// Opera
-				case agent.indexOf("opr") > -1: return "Opera";
-
-				// Google Chrome
-				case agent.indexOf("chrome") > -1: return "Google Chrome";
-
-				// Internet Explorer
-				case agent.indexOf("trident") > -1: return "Internet Explorer";
-
-				// Mozilla Firefox
-				case agent.indexOf("firefox") > -1: return "Mozilla Firefox";
-
-				// Safari
-				case agent.indexOf("safari") > -1: return "Apple Safari";
-
-				// Desconhecido
-				default: return null;
+			// Capturar os navegadores
+			for(var i = 0; i < _browsers.length; i++)
+			{
+				// Detectar o navegador
+				if (agent.indexOf(_browsers[i][0]) > -1)
+					return _browsers[i][1];
 			}
-		})(this.userAgent.toLowerCase());
+
+			// Navegador desconhecido
+			return null;
+		})(_this.userAgent.toLowerCase());
 
 		/*!
 		 * Capturar o nome curto do navegador.
 		 */
-		browserShortName = (function(agent) {
+		_this.browserShortName = (function(agent)
+		{
+			// Lista de navegadores
+			var _browsers = [
+				[ "edge", "MS Edge" ],
+				[ "edg/", "MS Chromium" ],
+				[ "opr", "Opera" ],
+				[ "chrome", "Chrome" ],
+				[ "trident", "MS IE" ],
+				[ "chromium", "Chromium" ],
+				[ "duckduckgo", "DuckDuckGo" ],
+				[ "brave", "Brave" ],
+				[ "vivaldi", "Vivaldi" ]
+			];
 
-			// Verificar cada um dos casos
-			switch(true) {
-
-				// Microsoft Edge
-				case agent.indexOf("edge") > -1: return "MS Edge";
-
-				// Microsoft Chromium
-				case agent.indexOf("edg/") > -1: return "MS Chromium";
-
-				// Opera
-				case agent.indexOf("opr") > -1: return "Opera";
-
-				// Google Chrome
-				case agent.indexOf("chrome") > -1: return "Chrome";
-
-				// Internet Explorer
-				case agent.indexOf("trident") > -1: return "MS IE";
-
-				// Mozilla Firefox
-				case agent.indexOf("firefox") > -1: return "Firefox";
-
-				// Safari
-				case agent.indexOf("safari") > -1: return "Safari";
-
-				// Desconhecido
-				default: return null;
+			// Capturar os navegadores
+			for(var i = 0; i < _browsers.length; i++)
+			{
+				// Detectar o navegador
+				if (agent.indexOf(_browsers[i][0]) > -1)
+					return _browsers[i][1];
 			}
-		})(this.userAgent.toLowerCase());
+
+			// Navegador desconhecido
+			return null;
+		})(_this.userAgent.toLowerCase());
 
 		/*!
-		 * Capturar a versão atual do navegador.
+		 * Capturar a versão do navegador.
 		 */
-		browserVersion = (function(ua) {
-
+		_this.browserVersion = (function(agent)
+		{
 			// Variáveis locais
 			var tem;
-			var M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+			var M = agent.match(
+				/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i
+			) || [];
 
 			// Capturar a versão do IE
 			if (/trident/i.test(M[1]))
 			{
-				// Capturar e retornar a versão atual
-				tem = /\brv[ :]+(\d+)/g.exec(ua) || [];
+				// Retornar a versão atual
+				tem = /\brv[ :]+(\d+)/g.exec(agent) || [];
 				return (tem[1] || '');
 			}
 
 			// Capturar a versão do Chrome
-			if (M[1] == "Chrome")
+			if (M[1] == 'Chrome')
 			{
-				// Capturar e retornar a versão atual
-				tem = ua.match(/\bOPR|Edge\/(\d+)/);
+				// Retornar a versão atual
+				tem = agent.match(/\bOPR|Edge\/(\d+)/);
 				if (tem != null) return tem[1];
 			}
 
 			// Atualizar a variável hospedeira
 			M = M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?'];
 
-			// Capturar e retornar a versão atual
-			if ((tem=ua.match(/version\/(\d+)/i)) != null) { M.splice(1, 1, tem[1]); }
+			// Retornar a versão atual
+			if ((tem = agent.match(/version\/(\d+)/i)) != null)
+				M.splice(1, 1, tem[1]);
 			return M[1];
-		})(this.userAgent);
+		})(_this.userAgent.toLowerCase());
 
 		/*!
-		 * Capturar a língua do navegador.
+		 * Capturar o idioma do navegador.
 		 */
-		language = navigator.language;
+		_this.language = navigator.language;
 
 		/*!
-		 * Capturar as línguas do navegador.
+		 * Capturar a lista de idiomas do navegador.
 		 */
-		languages = navigator.languages;
-
-	// ~> Detectar os sistemas operacionais (OS)
+		_this.languages = navigator.languages;
 
 		/*!
-		 * Detectar se é o Microsoft Windows.
+		 * Hospedeiro das informações do navegador.
 		 */
-		isWindows = (function(platform) {
+		_this.browser = {
+			userAgent: _this.userAgent,
+			vendor: _this.browserVendor,
+			name: _this.browserName,
+			shortName: _this.browserShortName,
+			version: _this.browserVersion,
+			language: _this.language,
+			languages: _this.languages
+		};
 
-			// Verificar o sistema operacional
-			return (['Win32', 'Win64', 'Windows', 'WinCE'].indexOf(platform) !== -1);
-		})(this.platform);
-		windows = this.isWindows;
+	// ~> Sistemas operacionais
 
 		/*!
-		 * Detectar se é o MacOS.
+		 * Detectar o sistema operacional Windows.
 		 */
-		isMacOS = (function(platform) {
-
-			// Verificar o sistema operacional
-			return (['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'].indexOf(platform) !== -1);
-		})(this.platform);
-		macOS = this.isMacOS;
+		_this.isWindows = _this.windows = (
+			['Win32', 'Win64', 'WinCE'].indexOf(_this.platform) !== -1
+		);
 
 		/*!
-		 * Detectar se é o Linux.
+		 * Detectar o sistema operacional MacOS.
 		 */
-		isLinux = (navigator.appVersion.indexOf("Linux") != -1);
-		linux = this.isLinux;
+		_this.isMacOS = _this.macOS = (
+			['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'].indexOf(_this.platform) !== -1
+		);
 
 		/*!
-		 * Detectar se é um iOS.
+		 * Detectar sistema operacional Linux.
 		 */
-		isIOS = (function(platform) {
-
-			// Verificar o sistema operacional
-			return (['iPhone', 'iPad', 'iPod'].indexOf(platform) !== -1);
-		})(this.platform);
-		ios = this.isIOS;
+		_this.isLinux = _this.linux = (
+			navigator.appVersion.indexOf('Linux') != -1
+		);
 
 		/*!
-		 * Detectar se é um Android.
+		 * Detectar o sistema operacional IOS.
 		 */
-		isAndroid = (/Android/.test(this.userAgent));
-		android = this.isAndroid;
+		_this.isIOS = _this.ios = (
+			['iPhone', 'iPad', 'iPod'].indexOf(_this.platform) !== -1
+		);
 
 		/*!
-		 * Capturar a plataforma atual.
+		 * Detectar o sistema operacional Android.
 		 */
-		platform = navigator.platform;
+		_this.isAndroid = _this.android = (/Android/.test(_this.userAgent));
 
-	// ~> Detectar dispositivos
+	// ~> Detectar Dispositivos
 
 		/*!
-		 * Detectar um dispositivo móvel (Mobile).
+		 * Detectar se é um dispositivo móvel (Mobile).
 		 */
-		isMobile = (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|wb)OS|Opera M(obi|ini)/.test(this.userAgent));
-		mobile = this.isMobile;
+		_this.isMobile = _this.mobile = (
+			/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|wb)OS|Opera M(obi|ini)/.test(_this.userAgent)
+		);
 
 		/*!
-		 * Detectar um Tablet.
+		 * Detectar se é um Tablet.
 		 */
-		isTablet = (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(this.userAgent));
-		tablet = this.isTablet;
+		_this.isTablet = _this.tablet = (
+			/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(_this.userAgent)
+		);
 
 		/*!
-		 * Detectar um Desktop.
+		 * Detectar se é um Desktop.
 		 */
-		isDesktop = (!this.isMobile && !this.isTablet);
-		dekstop = this.isDesktop;
+		_this.isDesktop = _this.desktop = (!_this.isTablet && !_this.isMobile);
 
 		/*!
-		 * Capturar tipo de dispositivo ("tablet", "mobile" ou "desktop").
+		 * Capturar o tipo de dispositivo (Mobile, Tablet ou Desktop).
 		 */
-		deviceType = (this.isTablet) ? "tablet" : ((this.isMobile) ? "mobile" : "desktop" );
+		_this.deviceType = (_this.isTablet) ? 'tablet' : ((_this.isMobile) ? 'mobile' : 'desktop');
 
-	// ~> Detectar orientações
-
-		/*!
-		 * Detectar se está em modo retrato (Portrait).
-		 */
-		isPortrait = (window.matchMedia("(orientation: portrait)").matches);
-		portrait = this.isPortrait;
+	// ~> Detectar Orientações
 
 		/*!
-		 * Detectar se está em modo paisagem (Landscape).
+		 * Detectar se o dispositivo está
+		 * em modo retrato (Portrait).
 		 */
-		isLandscape = (window.matchMedia("(orientation: landscape)").matches);
-		landscape = this.isLandscape;
+		_this.isPortrait = _this.portrait = (
+			window.matchMedia("(orientation: portrait)").matches
+		);
+
+		/*!
+		 * Detectar se o dispositivo está
+		 * em modo paisagem (Landscape).
+		 */
+		_this.isLandscape = _this.landscape = (
+			window.matchMedia("(orientation: landscape)").matches
+		);
 
 		/*!
 		 * Capturar a orientação do dispositivo.
 		 */
-		orientation = (window.matchMedia("(orientation: portrait)").matches) ? "portrait" : "landscape";
+		_this.orientation = (_this.isPortrait) ? 'portrait' : 'landscape';
 
-	// ~> Detectar os navegadores
+	// ~> Detectar navegadores
 
 		/*!
 		 * Detectar o Google Chrome.
 		 */
-		isChrome = (function(userAgent) {
-
-			// Detectar o navegador
-			if (userAgent.match(/chrome|chromium|crios/i)) return true;
-			else return false;
-		})(this.userAgent);
-		chrome = this.isChrome;
+		_this.isChrome = _this.chrome = (
+			(_this.userAgent.match(/chrome|chromium|crios/i)) ? true : false
+		);
 
 		/*!
 		 * Detectar o Mozilla Firefox.
 		 */
-		isFirefox = (function(userAgent) {
-
-			// Detectar o navegador
-			if (userAgent.match(/firefox|fxios/i)) return true;
-			else return false;
-		})(this.userAgent);
-		firefox = this.isFirefox;
+		_this.isFirefox = _this.firefox = (
+			(_this.userAgent.match(/firefox|fxios/i)) ? true : false
+		);
 
 		/*!
 		 * Detectar o Apple Safari.
 		 */
-		isSafari = (function(userAgent, isChrome) {
-
-			// Detectar o navegador
-			if (userAgent.match(/safari/i) && !isChrome) return true;
-			else return false;
-		})(this.userAgent, this.isChrome);
-		safari = this.isSafari;
+		_this.isSafari = _this.safari = (
+			(_this.userAgent.match(/safari/i) && !_this.isChrome) ? true : false
+		);
 
 		/*!
 		 * Detectar o Opera.
 		 */
-		isOpera = (function(userAgent) {
-
-			// Detectar o navegador
-			if (userAgent.match(/opr\//i)) return true;
-			else return false;
-		})(this.userAgent);
-		opera = this.isOpera;
+		_this.isOpera = _this.opera = (
+			(_this.userAgent.match(/opr\//i)) ? true : false
+		);
 
 		/*!
 		 * Detectar o Microsoft Edge.
 		 */
-		isEdge = (function(userAgent) {
-
-			// Detectar o navegador
-			if (userAgent.match(/edg/i)) return true;
-			else return false;
-		})(this.userAgent);
-		edge = this.isEdge;
+		_this.isEdge = _this.edge = (
+			(_this.userAgent.match(/edge|edg/i)) ? true : false
+		);
 
 		/*!
-		 * Detectar robos de captura.
+		 * Detectar o Microsoft Chromium.
 		 */
-		isRobot = (function(userAgent) {
+		_this.isMSChromium = _this.msChromium = (
+			(_this.userAgent.match(/edg/i)) ? true : false
+		);
 
-			// Lista de agente de usuários
-			var robots = new RegExp([
+		/*!
+		 * Detectar o Internet Explorer.
+		 */
+		_this.isIE = _this.ie = (
+			(_this.userAgent.match(/trident/i)) ? true : false
+		);
+
+		/*!
+		 * Detectar o Google Chromium.
+		 */
+		_this.isChromium = _this.chromium = (
+			(_this.userAgent.match(/chromium/i)) ? true : false
+		);
+
+		/*!
+		 * Detectar o DuckDuckGo Browser.
+		 */
+		_this.isDuckDuckGo = _this.duckDuckGo = (
+			(_this.userAgent.match(/duckduckgo/i)) ? true : false
+		);
+
+		/*!
+		 * Detectar o Brave Browser.
+		 */
+		_this.isBrave = _this.brave = (
+			(_this.userAgent.match(/brave/i)) ? true : false
+		);
+
+		/*!
+		 * Detectar o Vivaldi Browser.
+		 */
+		_this.isVivaldi = _this.vivaldi = (
+			(_this.userAgent.match(/vivaldi/i)) ? true : false
+		);
+
+		/*!
+		 * Detectar robôs de captura (Web Crawlers).
+		 */
+		_this.isRobot = _this.robot = (function(agent)
+		{
+			// Lista dos robôs de captura
+			var _robots = new RegExp([
 
 				// Termos gerais
-
 				/bot/, /spider/, /crawl/,
 
 				// Google Robots
-
 				/APIs-Google/, /AdsBot/, /Googlebot/,
 				/mediapartners/, /Google Favicon/,
 				/FeedFetcher/, /Google-Read-Aloud/,
 				/DuplexWeb-Google/, /googleweblight/,
 
 				// Outros motores
-
 				/bing/, /yandex/, /baidu/, /duckduck/, /yahoo/,
 				/ecosia/, /ia_archiver/,
 
 				// Mídias sociais
-
 				/facebook/, /instagram/, /pinterest/, /reddit/,
 				/slack/, /twitter/, /whatsapp/, /youtube/,
 
 				// Outros
-
 				/semrush/,
 			].map((r) => r.source).join("|"), "i");
 
-			// Retornar resultado
-			return robots.test(userAgent);
-		})(this.userAgent);
-		robot = this.isRobot;
+			// Retornar o resultado
+			return _robots.test(agent);
+		})(_this.userAgent);
 
-	// ~> Detectar conexão com a internet
+	// ~> Conexão com a internet
 
 		/*!
 		 * Detectar se o navegador está On-Line.
 		 */
-		isOnline = navigator.onLine;
-		online = this.isOnline;
+		_this.isOnline = _this.isOnLine = _this.onLine = _this.online = navigator.onLine;
 
 		/*!
 		 * Detectar se o navegador está Off-Line.
 		 */
-		isOffline = !this.isOnline;
-		offline = this.isOffline;
+		_this.isOffline = _this.isOffLine = _this.offLine = _this.offline = !_this.isOnLine;
 
-	// ~> Detectar o motor de renderização
-
-		/*!
-		 * Detectar o motor Gecko.
-		 */
-		isGecko = (function(userAgent) {
-
-			// Detectar o motor
-			if (userAgent.match(/Gecko\//i)) return true;
-			else return false;
-		})(this.userAgent);
-		gecko = this.isGecko;
+	// ~> Motores de renderização
 
 		/*!
-		 * Detectar o motor WebKit.
+		 * Detectar o motor de renderização Gecko.
 		 */
-		isWebKit = (function(userAgent) {
-
-			// Detectar o motor
-			if (userAgent.match(/AppleWebKit\//i)) return true;
-			else return false;
-		})(this.userAgent);
-		webkit = this.isWebKit;
+		_this.isGecko = _this.gecko = (
+			(_this.userAgent.match(/Gecko\//i)) ? true : false
+		);
 
 		/*!
-		 * Detectar o motor Presto.
+		 * Detectar o motor de renderização WebKit.
 		 */
-		isPresto = (function(userAgent) {
-
-			// Detectar o motor
-			if (userAgent.match(/Opera\/|Opr\//i)) return true;
-			else return false;
-		})(this.userAgent);
-		presto = this.isPresto;
+		_this.isWebKit = _this.webKit = _this.webkit = (
+			(_this.userAgent.match(/AppleWebKit\//i)) ? true : false
+		);
 
 		/*!
-		 * Detectar o motor Trident.
+		 * Detectar o motor de renderização Presto.
 		 */
-		isTrident = (function(userAgent) {
-
-			// Detectar o motor
-			if (userAgent.match(/Trident\//i)) return true;
-			else return false;
-		})(this.userAgent);
-		trident = this.isTrident;
+		_this.isPresto = _this.presto = (
+			(_this.userAgent.match(/Opera\/|Opr\//i)) ? true : false
+		);
 
 		/*!
-		 * Detectar o motor EdgeHTML.
+		 * Detectar o motor de renderização Trident.
 		 */
-		isEdgeHTML = (function(userAgent) {
-
-			// Detectar o motor
-			if (userAgent.match(/Edge\//i)) return true;
-			else return false;
-		})(this.userAgent);
-		edgeHTML = this.isEdgeHTML;
+		_this.isTrident = _this.trident = (
+			(_this.userAgent.match(/Trident\//i)) ? true : false
+		);
 
 		/*!
-		 * Detectar o motor Blink.
+		 * Detetar o motor de renderização EdgeHTML.
 		 */
-		isBlink = (function(userAgent) {
+		_this.isEdgeHTML = _this.edgeHTML = (
+			(_this.userAgent.match(/Edge\//i)) ? true : false
+		);
 
-			// Detectar o motor
-			if (userAgent.match(/Chrome\//i)) return true;
-			else return false;
-		})(this.userAgent);
-		blink = this.isBlink;
+		/*!
+		 * Detectar o motor de renderização Blink.
+		 */
+		_this.isBlink = _this.blink = (
+			(_this.userAgent.match(/Chrome\//i)) ? true : false
+		);
 
 	// ~> Baixar ficheiros
 
 		/*!
-		 * Baixar ficheiro a partir de uma URL.
+		 * Baixar um ficheiro a partir de uma URL.
 		 */
-		download = async function(url, filename = null)
+		_this.download = async (url, filename = null) =>
 		{
 			// Verificar URL vazia
-			if (url == null || url == undefined || url.length <= 0 || url == "")
-				return false;
+			if (_this.isNullOrEmpty(url) || _this.isNullOrWhitespace(url)) return false;
 
 			// Verificar nome vazio
-			if (filename == null || filename == undefined || filename.length <= 0 || filename == "")
+			if (_this.isNullOrEmpty(filename) || _this.isNullOrWhitespace(filename))
 			{
-				// Capturar arquivo da URL
+				// Capturar o arquivo da URL
 				var urlFileName = url.substring(url.lastIndexOf("/") + 1);
 
-				// Verificar arquivo vazio
-				if (urlFileName == null || urlFileName == undefined || urlFileName.length <= 0 || urlFileName == "")
-					filename = "blank.txt";
-				else filename = urlFileName;
+				// Verificar nome vazio
+				if (_this.isNullOrEmpty(urlFileName) || _this.isNullOrWhitespace(urlFileName))
+					filename = _this.uniqueID() + '.txt';
+
+				// Atualizar o nome do arquivo
+				filename = urlFileName;
 			}
 
 			// Inicializar o download
-			var file = await fetch(url, { mode: "no-cors" });
-			var fileBlob = await file.blob();
+			var file = await fetch(url, { mode: 'no-cors' });
+			var fileBlob = file.blob();
 			var fileURL = URL.createObjectURL(fileBlob);
 
-			var manager = document.createElement("a");
-			manager.href = fileURL;
-			manager.download = filename;
-			manager.click();
+			// Baixar o ficheiro
+			var temp = _this.create('a');
+			temp.href = fileURL;
+			temp.download = filename;
+			temp.click();
+
+			// Revogar a URL
 			URL.revokeObjectURL(fileURL);
 			return true;
 		}
 
 		/*!
-		 * Baixar ficheiro com texto.
+		 * Baixar ficheiro a partir de um texto.
 		 */
-		downloadText = async function(text, filename = null)
+		_this.downloadText = (text, filename = null) =>
 		{
 			// Verificar nome vazio
-			if (filename == null || filename == undefined || filename.length <= 0 || filename == "")
-				filename = "blank.txt";
+			if (_this.isNullOrEmpty(filename) || _this.isNullOrWhitespace(filename))
+				filename = _this.uniqueID() + '.txt';
 
-			// Inicializar o download
-			var manager = document.createElement("a");
-			manager.href = "data:text/plain;charset=utf-8," + encodeURIComponent(text);
-			manager.download = filename;
-			manager.click();
+			// Baixar o ficheiro
+			var temp = _this.create('a');
+			temp.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(text);
+			temp.download = filename;
+			temp.click();
+			return true;
 		}
 }
 
-/*!
- * Hospedeiro padrão da classe.
- */
-const anchor = new Anchor();
+// ~> Hospedar uma nova instância do Anchor
+
+	window.anchor = new Anchor;
