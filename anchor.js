@@ -151,15 +151,6 @@ function Anchor()
 
 		/*!
 		 * Verificar se a variável é
-		 * do tipo função (Function).
-		 */
-		_this.isFunction = (variable) =>
-		{
-			return (_this.getType(variable) == 'function');
-		}
-
-		/*!
-		 * Verificar se a variável é
 		 * do tipo matriz (Array).
 		 */
 		_this.isArray = (variable) => {
@@ -641,7 +632,7 @@ function Anchor()
 	// ~> Informações do navegador
 
 		/*!
-		 * Capturar o agente de usuário (UserAgent).
+		 * Capturar o aSSgente de usuário (UserAgent).
 		 */
 		_this.userAgent = navigator.userAgent;
 
