@@ -68,8 +68,6 @@ Boas-vindas! Aqui você terá uma visão geral sobre o que temos a oferecer para
 * **Capturar informações do navegador:** o que já era rápido ficou ainda mais. Agilizamos os processo da captura dos dados sobre o navegador para você, diminuindo o tempo de digitação.
   * As informações incluem o **nome completo**, o **nome curto**, **versão atual**, **agente de usuário (UserAgent)** entre outros.
 
-* **Funcionabilidades extras:** temos também outras funcionabilidades extras em nossa biblioteca, mais temos algo que possa interessar a você, uma ferramenta nativa do Anchor, isso mesmo, temos também um **analisador Markdown**!
-
 Planejamos em futuros não muito distantes, incluir cada vez mais funcionabilidades e utilidades ao Anchor, facilitando a cada atualização o seu desenvolvimento, reduzindo o trabalho por você.
 
 <!-- SOBRE -->
